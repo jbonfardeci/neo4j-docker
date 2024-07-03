@@ -4,10 +4,6 @@ source .env
 
 echo $ENV
 
-NEO4J_DIR=/opt/neo4j
-NEO4J_IMAGE=neo4j:community-5.7.0
-DATA_DIR=$NEO4J_DIR/data
-PLUGINS_DIR=$NEO4J_DIR/plugins
 APOC=$PLUGINS_DIR/apoc-5.7.0-core.jar
 APOC_URL=https://github.com/neo4j/apoc/releases/download/5.7.0/apoc-5.7.0-core.jar
 GDS=$PLUGINS_DIR/neo4j-graph-data-science-2.3.4.jar
