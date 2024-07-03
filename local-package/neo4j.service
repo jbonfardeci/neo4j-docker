@@ -1,0 +1,10 @@
+[Unit]
+Description=Starts Neo4j Service
+
+[Service]
+ExecStart=/var/lib/neo4j/bin/neo4j start
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
