@@ -2,11 +2,11 @@ FROM debian:bullseye-slim
 ENV JAVA_HOME=/opt/java/openjdk
 COPY --from=eclipse-temurin:17 $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}" \
-    NEO4J_SHA256="e13e94d8c8730f9525f30f98821ade79b349af1697d7ac94a8c3cc8b0273b734" \
-    NEO4J_TARBALL="neo4j-community-5.7.0-unix.tar.gz" \
+    NEO4J_SHA256="3451a852a986f1502b42ac74a7ca83520bdbb519d86e4d4c60f490e425057b18" \
+    NEO4J_TARBALL="neo4j-community-5.21.0-unix.tar.gz" \
     NEO4J_EDITION=community \
     NEO4J_HOME="/var/lib/neo4j"
-ARG NEO4J_URI="https://dist.neo4j.org/neo4j-community-5.7.0-unix.tar.gz"
+ARG NEO4J_URI="https://dist.neo4j.org/neo4j-community-5.21.0-unix.tar.gz"
 
 RUN addgroup --gid 7474 --system neo4j && adduser --uid 7474 --system --no-create-home --home "${NEO4J_HOME}" --ingroup neo4j neo4j
 
