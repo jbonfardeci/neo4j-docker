@@ -15,6 +15,8 @@ NEO4J_FRONTEND_PORT=7474
 NEO4J_USERNAME=neo4j
 NEO4J_PASSWORD=<YOUR_PASSWORD> # Replace with a strong password.
 CONTAINER_NAME=neo4j
+APOC_VERSION=5.21.0
+GDS_VERSION=2.7.0
 ```
 
 If you want to run multiple instances of Neo4j, you must set all of these variables to unique values. For example, increment the values for `NEO4J_PORT` to 7687, 7688, 7689, etc.
