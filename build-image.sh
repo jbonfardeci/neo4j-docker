@@ -4,10 +4,10 @@ source .env
 
 echo $ENV
 
-APOC=$PLUGINS_DIR/apoc-5.7.0-core.jar
-APOC_URL=https://github.com/neo4j/apoc/releases/download/5.7.0/apoc-5.7.0-core.jar
-GDS=$PLUGINS_DIR/neo4j-graph-data-science-2.3.4.jar
-GDS_URL=https://github.com/neo4j/graph-data-science/releases/download/2.3.4/neo4j-graph-data-science-2.3.4.jar
+APOC="$PLUGINS_DIR/apoc-$APOC_VERSION-core.jar"
+APOC_URL="https://github.com/neo4j/apoc/releases/download/$APOC_VERSION/apoc-$APOC_VERSION-core.jar"
+GDS="$PLUGINS_DIR/neo4j-graph-data-science-$GDS_VERSION.jar"
+GDS_URL="https://github.com/neo4j/graph-data-science/releases/download/$GDS_VERSION/neo4j-graph-data-science-$GDS_VERSION.jar"
 
 if [ -d $DATA_DIR ]; then
     echo "$DATA_DIR already exists."
