@@ -22,11 +22,13 @@ sudo docker run -d \
     --restart unless-stopped \
     -p $NEO4J_FRONTEND_PORT:$NEO4J_FRONTEND_PORT \
     -p $NEO4J_PORT:$NEO4J_PORT \
-    -v $DATA_DIR:/data \
+    -v $HOME/neo4j/data:/data \
+    -v $HOME/neo4j/import:/var/lib/neo4j/import \
     -v $PLUGINS_DIR:/plugins \
     -e NEO4J_PLUGINS=/var/lib/neo4j/plugins \
     -e NEO4J_AUTH=$NEO4J_USERNAME/$NEO4J_PASSWORD \
     -e NEO4J_dbms_security_procedures_unrestricted="apoc.*,gds.*" \
+    -e apoc.import.file.enabled=true \
     $NEO4J_IMAGE
 
 echo "Container Neo4j started."
