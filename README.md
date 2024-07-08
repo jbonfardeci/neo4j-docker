@@ -6,10 +6,11 @@ To run, first set your environment variables in the `.env` file in this repo. Yo
 
 ```bash
 ENV=local
-NEO4J_DIR=/opt/neo4j
-DATA_DIR=/opt/neo4j/data
-NEO4J_IMAGE=neo4j:community-5.7.0
-PLUGINS_DIR=/opt/neo4j/plugins
+NEO4J_DIR=$HOME/neo4j
+DATA_DIR=$HOME/neo4j/data
+IMPORT_DIR=$HOME/neo4j/import
+NEO4J_IMAGE=neo4j:community-5.21.0
+PLUGINS_DIR=$HOME/neo4j/plugins
 NEO4J_PORT=7687
 NEO4J_FRONTEND_PORT=7474
 NEO4J_USERNAME=neo4j
