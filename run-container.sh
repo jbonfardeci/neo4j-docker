@@ -43,7 +43,6 @@ else
 fi
 
 sudo chmod -R 777 $NEO4J_DIR
-sudo chmod -R 777 $IMPORT_DIR
 
 echo "Running container..."
 
@@ -76,4 +75,5 @@ sudo docker run -d \
 
 echo "Container Neo4j started."
 sleep 5
+sudo chmod -R 777 $IMPORT_DIR
 sudo docker ps -a -f name=$CONTAINER_NAME
