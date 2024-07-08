@@ -1,6 +1,6 @@
 # Run a Neo4j Docker Container with Volume Mount
 
-This solution buils a Neo4j Docker image with a volume mount, and the APOC and GDS plugins.
+This solution builds a Neo4j Docker image with a volume mount, and the APOC and GDS plugins.
 
 To run, first set your environment variables in the `.env` file in this repo. You can change the defaults below to the appropriate values for your environment. The variable names are:
 
