@@ -32,7 +32,7 @@ RUN apt update \
     && apt-get -y purge --auto-remove curl \
     && rm -rf /var/lib/apt/lists/*
 
-ENV PATH ${NEO4J_HOME}/bin:$PATH
+ENV PATH=${NEO4J_HOME}/bin:$PATH
 
 WORKDIR "${NEO4J_HOME}"
 
