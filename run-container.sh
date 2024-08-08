@@ -62,6 +62,7 @@ fi
 sudo docker run -d \
     --name $CONTAINER_NAME \
     --restart unless-stopped \
+    --network host \
     -p $NEO4J_FRONTEND_PORT:7474 \
     -p $NEO4J_PORT:7687 \
     -v $HOME/neo4j/data:/data \
