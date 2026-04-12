@@ -1,24 +1,28 @@
-FROM debian:bullseye-slim
+FROM debian:trixie-slim
 ENV JAVA_HOME=/opt/java/openjdk
-COPY --from=eclipse-temurin:17 $JAVA_HOME $JAVA_HOME
+COPY --from=eclipse-temurin:25 $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}" \
-    NEO4J_SHA256="3451a852a986f1502b42ac74a7ca83520bdbb519d86e4d4c60f490e425057b18" \
-    NEO4J_TARBALL="neo4j-community-5.21.0-unix.tar.gz" \
+    NEO4J_SHA256=419c5a471a8b6918570da687215d7d3406983a6ae209fd3d96c2de2a90a5dcfb \
+    NEO4J_TARBALL=neo4j-community-2026.03.1-unix.tar.gz \
     NEO4J_EDITION=community \
-    NEO4J_HOME="/var/lib/neo4j"
-ARG NEO4J_URI="https://dist.neo4j.org/neo4j-community-5.21.0-unix.tar.gz"
-
-RUN addgroup --gid 7474 --system neo4j && adduser --uid 7474 --system --no-create-home --home "${NEO4J_HOME}" --ingroup neo4j neo4j
+    NEO4J_HOME="/var/lib/neo4j" \
+    LANG=C.UTF-8
+ARG NEO4J_URI=https://dist.neo4j.org/neo4j-community-2026.03.1-unix.tar.gz
 
 COPY ./local-package/* /startup/
 
-RUN apt update \
-    && apt install -y curl gosu jq tini wget \
+RUN apt-get update \
+    && apt-get install --no-install-recommends -o Acquire::Retries=10 -y \
+      curl ca-certificates gcc libc-dev git jq make procps tini wget \
+    && groupadd --gid 7474 --system neo4j \
+    && useradd --uid 7474 --system --no-create-home --home "${NEO4J_HOME}" --gid neo4j neo4j \
     && curl --fail --silent --show-error --location --remote-name ${NEO4J_URI} \
     && echo "${NEO4J_SHA256}  ${NEO4J_TARBALL}" | sha256sum -c --strict --quiet \
     && tar --extract --file ${NEO4J_TARBALL} --directory /var/lib \
     && mv /var/lib/neo4j-* "${NEO4J_HOME}" \
     && rm ${NEO4J_TARBALL} \
+    && sed -i 's/Package Type:.*/Package Type: docker trixie/' $NEO4J_HOME/packaging_info \
+    && mv /startup/neo4j-admin-report.sh "${NEO4J_HOME}"/bin/neo4j-admin-report \
     && mv "${NEO4J_HOME}"/data /data \
     && mv "${NEO4J_HOME}"/logs /logs \
     && chown -R neo4j:neo4j /data \
@@ -27,10 +31,19 @@ RUN apt update \
     && chmod -R 777 /logs \
     && chown -R neo4j:neo4j "${NEO4J_HOME}" \
     && chmod -R 777 "${NEO4J_HOME}" \
+    && chmod -R 755 "${NEO4J_HOME}/bin" \
     && ln -s /data "${NEO4J_HOME}"/data \
     && ln -s /logs "${NEO4J_HOME}"/logs \
-    && apt-get -y purge --auto-remove curl \
-    && rm -rf /var/lib/apt/lists/*
+    && git clone https://github.com/ncopa/su-exec.git \
+    && cd su-exec \
+    && git checkout 4c3bb42b093f14da70d8ab924b487ccfbb1397af \
+    && echo d6c40440609a23483f12eb6295b5191e94baf08298a856bab6e15b10c3b82891 su-exec.c | sha256sum -c \
+    && echo 2a87af245eb125aca9305a0b1025525ac80825590800f047419dc57bba36b334 Makefile | sha256sum -c \
+    && make \
+    && mv /su-exec/su-exec /usr/bin/su-exec \
+    && apt-get -y purge --auto-remove curl gcc git make libc-dev \
+    && rm -rf /var/lib/apt/lists/* /su-exec
+
 
 ENV PATH=${NEO4J_HOME}/bin:$PATH
 
